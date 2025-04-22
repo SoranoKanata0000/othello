@@ -18,35 +18,7 @@ export default function Home() {
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    if (board[y + 1] !== undefined && board[y + 1][x] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[y - 1] !== undefined && board[y - 1][x] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[x - 1] !== undefined && board[y][x - 1] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[x + 1] !== undefined && board[y][x + 1] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[y + 1][x + 1] !== undefined && board[y + 1][x + 1] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[y - 1][x + 1] !== undefined && board[y - 1][x + 1] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[y + 1][x - 1] !== undefined && board[y + 1][x - 1] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(2 / turnColor);
-    }
-    if (board[y - 1][x - 1] !== undefined && board[y - 1][x - 1] === 2 / turnColor) {
+    if (board[y + (9 - y)] !== undefined && board[y + 1][x] === 2 / turnColor) {
       newBoard[y][x] = turnColor;
       setTurnColor(2 / turnColor);
     }
@@ -55,19 +27,21 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.board}>
-        {board.map((row, y) =>
-          row.map((color, x) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
-              {color !== 0 && (
-                <div
-                  className={styles.stone}
-                  style={{ background: color === 1 ? `#000` : `#fff` }}
-                />
-              )}
-            </div>
-          )),
-        )}
+      <div className={styles.backBoard}>
+        <div className={styles.board}>
+          {board.map((row, y) =>
+            row.map((color, x) => (
+              <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+                {color !== 0 && (
+                  <div
+                    className={styles.stone}
+                    style={{ background: color === 1 ? `#000` : `#fff` }}
+                  />
+                )}
+              </div>
+            )),
+          )}
+        </div>
       </div>
     </div>
   );
