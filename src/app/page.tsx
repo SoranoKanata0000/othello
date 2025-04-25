@@ -18,11 +18,155 @@ export default function Home() {
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    if (board[y + (9 - y)] !== undefined && board[y + 1][x] === 2 / turnColor) {
-      newBoard[y][x] = turnColor;
+    let i = 1;
+    if (
+      (board[y + i] !== undefined && board[y + i][x] === 2 / turnColor) ||
+      (board[y - i] !== undefined && board[y - i][x] === 2 / turnColor) ||
+      (board[x + i] !== undefined && board[y][x + i] === 2 / turnColor) ||
+      (board[x - i] !== undefined && board[y][x - i] === 2 / turnColor) ||
+      (board[y + i] !== undefined &&
+        board[x + i] !== undefined &&
+        board[y - i] !== undefined &&
+        board[x + i] !== undefined &&
+        board[y + i] !== undefined &&
+        board[x - i] !== undefined &&
+        board[y + i][x + i] === 2 / turnColor) ||
+      (board[y - i] !== undefined &&
+        board[x + i] !== undefined &&
+        board[y - i] !== undefined &&
+        board[x - i] !== undefined &&
+        board[y + i] !== undefined &&
+        board[x + i] !== undefined &&
+        board[y - i][x + i] === 2 / turnColor) ||
+      (board[y + i] !== undefined &&
+        board[x - i] !== undefined &&
+        board[y - i] !== undefined &&
+        board[x - i] !== undefined &&
+        board[y + i] !== undefined &&
+        board[x + i] !== undefined &&
+        board[y + i][x - i] === 2 / turnColor) ||
+      (board[y - i] !== undefined &&
+        board[x - i] !== undefined &&
+        board[y - i] !== undefined &&
+        board[x + i] !== undefined &&
+        board[y + i] !== undefined &&
+        board[x - i] !== undefined &&
+        board[y - i][x - i] === 2 / turnColor)
+    ) {
+      while (board[y + i][x] === 2 / turnColor) {
+        if (board[y + i] === undefined || board[y + i][x] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y + i][x] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countY = 1; countY < i; countY++) {
+          newBoard[y + countY][x] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y - i][x] === 2 / turnColor) {
+        if (board[y - i] === undefined || board[y - i][x] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y - i][x] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countY = 1; countY < i; countY++) {
+          newBoard[y - countY][x] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y][x + i] === 2 / turnColor) {
+        if (board[x + i] === undefined || board[y][x + i] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y][x + i] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countX = 1; countX < i; countX++) {
+          newBoard[y][x + countX] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y][x - i] === 2 / turnColor) {
+        if (board[x - i] === undefined || board[y][x - i] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y][x - i] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countX = 1; countX < i; countX++) {
+          newBoard[y][x - countX] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y + i][x + i] === 2 / turnColor) {
+        if (board[y + i][x + i] === undefined || board[y + i][x + i] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y + i][x + i] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countYX = 1; countYX < i; countYX++) {
+          newBoard[y + countYX][x + countYX] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y - i][x + i] === 2 / turnColor) {
+        if (board[y - i][x + i] === undefined || board[y - i][x + i] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y - i][x + i] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countYX = 1; countYX < i; countYX++) {
+          newBoard[y - countYX][x + countYX] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y + i][x - i] === 2 / turnColor) {
+        if (board[y + i][x - i] === undefined || board[y + i][x - i] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y + i][x - i] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countYX = 1; countYX < i; countYX++) {
+          newBoard[y + countYX][x - countYX] = turnColor;
+        }
+      }
+      i = 1;
+      while (board[y - i][x - i] === 2 / turnColor) {
+        if (board[y - i][x - i] === undefined || board[y - i][x - i] === turnColor - turnColor) {
+          break;
+        }
+        i++;
+      }
+      if (board[y - i][x - i] === turnColor) {
+        newBoard[y][x] = turnColor;
+        console.log(i);
+        for (let countYX = 1; countYX < i; countYX++) {
+          newBoard[y - countYX][x - countYX] = turnColor;
+        }
+      }
       setTurnColor(2 / turnColor);
+      setBoard(newBoard);
     }
-    setBoard(newBoard);
   };
 
   return (
