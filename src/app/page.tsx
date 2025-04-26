@@ -6,32 +6,38 @@ import styles from './page.module.css';
 export default function Home() {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
+    [],
     [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 2, 0, 2, 0, 0, 1, 0],
+    [0, 0, 1, 2, 0, 2, 0, 0],
+    [0, 0, 0, 1, 2, 1, 1, 0],
+    [0, 1, 1, 2, 1, 0, 0, 0],
+    [0, 0, 2, 0, 2, 1, 0, 0],
+    [0, 1, 0, 0, 2, 0, 2, 1],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [],
   ]);
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
     let i = 1;
     while (board[y + i] !== undefined && board[y + i][x] === 2 / turnColor) {
+      console.log('while', i);
       i++;
       if (board[y + i] === undefined || board[y + i][x] === 0) {
         i = 0;
         break;
       }
     }
-    if (board[y + 1][x] === turnColor || board[y + 1][x] === 0) {
+    if (
+      (board[y + 1] !== undefined && board[y + 1][x] === turnColor) ||
+      (board[y + 1] !== undefined && board[y + 1][x] === 0)
+    ) {
       i = 0;
     }
     if (board[y + i] !== undefined && board[y + i][x] === turnColor) {
       newBoard[y][x] = turnColor;
-      console.log('i = ', i);
+      console.log('下', i);
       for (let countY = 1; countY < i; countY++) {
         newBoard[y + countY][x] = turnColor;
       }
@@ -39,25 +45,28 @@ export default function Home() {
     let j = 1;
     while (board[y - j] !== undefined && board[y - j][x] === 2 / turnColor) {
       j++;
-      if (board[y - j] === undefined || board[y - j][x] === turnColor - turnColor) {
+      if (board[y - j] === undefined || board[y - j][x] === 0) {
         j = 0;
         break;
       }
     }
-    if (board[y - 1][x] === turnColor || board[y - 1][x] === 0) {
+    if (
+      (board[y - 1] !== undefined && board[y - 1][x] === turnColor) ||
+      (board[y - 1] !== undefined && board[y - 1][x] === 0)
+    ) {
       j = 0;
     }
     if (board[y - j] !== undefined && board[y - j][x] === turnColor) {
       newBoard[y][x] = turnColor;
-      console.log('j = ', j);
+      console.log('上', j);
       for (let countY = 1; countY < j; countY++) {
         newBoard[y - countY][x] = turnColor;
       }
     }
     let k = 1;
-    while (board[x + k] !== undefined && board[y][x + k] === 2 / turnColor) {
+    while (board[y][x + k] === 2 / turnColor) {
       k++;
-      if (board[x + k] === undefined || board[y][x + k] === turnColor - turnColor) {
+      if (board[x + 1] === undefined || board[y][x + k] === 0) {
         k = 0;
         break;
       }
@@ -67,15 +76,15 @@ export default function Home() {
     }
     if (board[x + k] !== undefined && board[y][x + k] === turnColor) {
       newBoard[y][x] = turnColor;
-      console.log('k = ', k);
+      console.log('右', k);
       for (let countX = 1; countX < k; countX++) {
         newBoard[y][x + countX] = turnColor;
       }
     }
     let l = 1;
-    while (board[x - l] !== undefined && board[y][x - l] === 2 / turnColor) {
+    while (board[y][x - l] === 2 / turnColor) {
       l++;
-      if (board[x - l] === undefined || board[y][x - l] === turnColor - turnColor) {
+      if (board[x - 1] === undefined || board[y][x - l] === 0) {
         l = 0;
         break;
       }
@@ -85,76 +94,65 @@ export default function Home() {
     }
     if (board[x - l] !== undefined && board[y][x - l] === turnColor) {
       newBoard[y][x] = turnColor;
-      console.log('l = ', l);
+      console.log('左', l);
       for (let countX = 1; countX < l; countX++) {
         newBoard[y][x - countX] = turnColor;
       }
     }
-    let m = 1;
-    while (
-      board[y + m] !== undefined &&
-      board[x + m] !== undefined &&
-      board[y + m][x + m] === 2 / turnColor
-    ) {
+    let m = 0;
+    while (board[y + 1] !== undefined && board[y + m][x + m] === 2 / turnColor) {
       m++;
       if (board[y + m][x + m] === undefined || board[y + m][x + m] === turnColor - turnColor) {
         m = 0;
         break;
       }
     }
-    if (board[y + 1][x + 1] === turnColor || board[y + 1][x + 1] === 0) {
+    if (
+      (board[y - 1] !== undefined && board[y - 1][x - 1] === turnColor) ||
+      (board[y - 1] !== undefined && board[y - 1][x - 1] === 0)
+    ) {
       m = 0;
     }
-    if (
-      board[y + m] !== undefined &&
-      board[x + m] !== undefined &&
-      board[y + m][x + m] === turnColor
-    ) {
+    if (board[y + m] !== undefined && board[y + m][x + m] === turnColor) {
       newBoard[y][x] = turnColor;
-      console.log('m = ', m);
+      console.log('右下', m);
       for (let countYX = 1; countYX < m; countYX++) {
         newBoard[y + countYX][x + countYX] = turnColor;
       }
     }
-    let n = 1;
-    while (
-      board[y - n] !== undefined &&
-      board[x + n] !== undefined &&
-      board[y - n][x + n] === 2 / turnColor
-    ) {
+    let n = 0;
+    while (board[y - 1] !== undefined && board[y - n][x + n] === 2 / turnColor) {
       n++;
-      if (board[y - n][x + n] === undefined || board[y - n][x + n] === turnColor - turnColor) {
+      if (board[y - 1] === undefined || board[y - n][x + n] === 0) {
         n = 0;
         break;
       }
     }
-    if (board[y - 1][x + 1] === turnColor || board[y - 1][x + 1] === 0) {
+    if (
+      (board[y - 1] !== undefined && board[y - 1][x - 1] === turnColor) ||
+      (board[y - 1] !== undefined && board[y - 1][x - 1] === 0)
+    ) {
       n = 0;
     }
-    if (
-      board[y - n] !== undefined &&
-      board[x + n] !== undefined &&
-      board[y - n][x + n] === turnColor
-    ) {
+    if (board[y - n] !== undefined && board[y - n][x + n] === turnColor) {
       newBoard[y][x] = turnColor;
-      console.log('n = ', n);
+      console.log('右上', n);
       for (let countYX = 1; countYX < n; countYX++) {
         newBoard[y - countYX][x + countYX] = turnColor;
       }
     }
-    let o = 1;
-    while (
-      board[y + o] !== undefined &&
-      board[x - o] !== undefined &&
-      board[y + o][x - o] === 2 / turnColor
-    ) {
+    let o = 0;
+    while (board[y + 1] !== undefined && board[y + o][x - o] === 2 / turnColor) {
       o++;
-      if (board[y + o][x - o] === undefined || board[y + o][x - o] === turnColor - turnColor) {
+      if (board[y + 1][x - 1] === undefined || board[y + o][x - o] === 0) {
         o = 0;
         break;
       }
     }
-    if (board[y + 1][x - 1] === turnColor || board[y + 1][x - 1] === 0) {
+    if (
+      (board[y + 1] !== undefined && board[y + 1][x - 1] === turnColor) ||
+      (board[y + 1] !== undefined && board[y + 1][x - 1] === 0)
+    ) {
       o = 0;
     }
     if (
@@ -163,24 +161,23 @@ export default function Home() {
       board[y + o][x - o] === turnColor
     ) {
       newBoard[y][x] = turnColor;
-      console.log('o = ', o);
+      console.log('左下', o);
       for (let countYX = 1; countYX < o; countYX++) {
         newBoard[y + countYX][x - countYX] = turnColor;
       }
     }
-    let p = 1;
-    while (
-      board[y - p] !== undefined &&
-      board[x - p] !== undefined &&
-      board[y - p][x - p] === 2 / turnColor
-    ) {
+    let p = 0;
+    while (board[y - p] !== undefined && board[y - p][x - p] === 2 / turnColor) {
       p++;
       if (board[y - p][x - p] === undefined || board[y - p][x - p] === 0) {
         p = 0;
         break;
       }
     }
-    if (board[y - 1][x - 1] === turnColor || board[y - 1][x - 1] === 0) {
+    if (
+      (board[y - 1] !== undefined && board[y - 1][x - 1] === turnColor) ||
+      (board[y - 1] !== undefined && board[y - 1][x - 1] === 0)
+    ) {
       p = 0;
     }
     if (
@@ -189,12 +186,12 @@ export default function Home() {
       board[y - p][x - p] === turnColor
     ) {
       newBoard[y][x] = turnColor;
-      console.log('p = ', p);
+      console.log('左上', p);
       for (let countYX = 1; countYX < p; countYX++) {
         newBoard[y - countYX][x - countYX] = turnColor;
       }
     }
-    console.log('i=', i, 'j=', j, 'k=', k, 'l=', l, 'm=', m, 'n=', n, 'o=', o, 'p=', p);
+    console.log('下', i, '上', j, '右', k, '左', l, '右下', m, '右上', n, '左下', o, '左上', p);
     if (i !== 0 || j !== 0 || k !== 0 || l !== 0 || m !== 0 || n !== 0 || o !== 0 || p !== 0) {
       console.log(turnColor, '=>', 2 / turnColor);
       setTurnColor(2 / turnColor);
