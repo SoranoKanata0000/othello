@@ -24,45 +24,48 @@ export default function Home() {
     let j = 0;
     let countY = -1;
     let countX = -1;
-    console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
+    console.log('defalt', 'i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
     while (countY < 2) {
       while (countX < 2) {
+        i += countY;
+        j += countX;
         console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
         while (board[y + i][x + j] === 2 / turnColor) {
-          console.log('i=', i, 'j=', j);
           i += countY;
           j += countX;
-          console.log('i=', i, 'j=', j);
-          if (board[y + i] === board[0] || board[y + i] === board[9] || board[y + i][x] === 0) {
+          console.log('i+=countY', 'j+=countX');
+          if (board[y + i] === board[0] || board[y + i] === board[9] || board[y + i][x + j] === 0) {
             i = 0;
             j = 0;
             console.log('while if=>break');
             break;
           }
-          if (
-            board[y + countY] === board[0] ||
-            board[y + countY] === board[9] ||
-            board[y + countY][x + countX] === turnColor ||
-            board[y + countY][x + countX] === 0
-          ) {
-            i = 0;
-            j = 0;
-            console.log('if=>0');
-          }
-          if (board[y + i][x + j] === turnColor) {
-            newBoard[y][x] = turnColor;
-            console.log(i, j);
-            let turnStoneY = countY;
-            let turnStoneX = countX;
-            while (turnStoneY < i && turnStoneX < j) {
-              newBoard[y + turnStoneY][x + turnStoneX] = turnColor;
-              turnStoneY += countY;
-              turnStoneX += countX;
-            }
-          }
+        }
+        if (
+          board[y + countY] === board[0] ||
+          board[y + countY] === board[9] ||
+          board[y + countY][x + countX] === turnColor ||
+          board[y + countY][x + countX] === 0
+        ) {
           i = 0;
           j = 0;
+          console.log('if=>0');
         }
+        if (board[y + i][x + j] === turnColor) {
+          newBoard[y][x] = turnColor;
+          let turnStoneY = countY;
+          let turnStoneX = countX;
+          console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
+          console.log('i=', i, 'j=', j);
+          while (Math.abs(turnStoneY) < Math.abs(i) || Math.abs(turnStoneX) < Math.abs(j)) {
+            console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
+            newBoard[y + turnStoneY][x + turnStoneX] = turnColor;
+            turnStoneY += countY;
+            turnStoneX += countX;
+          }
+        }
+        i = 0;
+        j = 0;
         countX++;
       }
       countX = -1;
