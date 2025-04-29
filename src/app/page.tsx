@@ -27,18 +27,16 @@ export default function Home() {
     console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
     while (countY < 2) {
       while (countX < 2) {
-        i += countY;
-        j += countX;
         console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
         while (board[y + i][x + j] === 2 / turnColor) {
           console.log('i=', i, 'j=', j);
           i += countY;
           j += countX;
-          console.log(i, j);
+          console.log('i=', i, 'j=', j);
           if (board[y + i] === board[0] || board[y + i] === board[9] || board[y + i][x] === 0) {
             i = 0;
             j = 0;
-            console.log('while(if=>break');
+            console.log('while if=>break');
             break;
           }
           if (
@@ -70,7 +68,7 @@ export default function Home() {
       countX = -1;
       countY++;
     }
-    if (newBoard[y][x] !== 0 && board[y][x] === newBoard[y][x]) {
+    if (newBoard[y][x] !== 0 && board[y][x] !== newBoard[y][x]) {
       console.log(turnColor, '=>', 2 / turnColor);
       setTurnColor(2 / turnColor);
       setBoard(newBoard);
