@@ -26,6 +26,9 @@ export default function Home() {
     let countX = -1;
     console.log('defalt', 'i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
     while (countY < 2) {
+      if (board[y][x] === 1 || board[y][x] === 2) {
+        break;
+      }
       while (countX < 2) {
         i += countY;
         j += countX;
