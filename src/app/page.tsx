@@ -77,6 +77,7 @@ export default function Home() {
       setBoard(newBoard);
     }
   };
+  //const canSetStone = (p: number, q: number) => {};
 
   return (
     <div className={styles.container}>
@@ -90,6 +91,7 @@ export default function Home() {
                   style={{ background: color === 1 ? `#000` : `#fff` }}
                 />
               )}
+              <div className={styles.preStone} />
             </div>
           )),
         )}
