@@ -80,21 +80,35 @@ export default function Home() {
       setBoard(newBoard);
     }
   };
-  //const canSetStone = (p: number, q: number) => {};
+  const canSetStone = (board: number[][]) => {
+    const x = 0;
+    const y = 0;
+    for (const i of board) {
+      if (board[y][x] !== 0) {
+        continue;
+      }
+      console.log(i);
+    }
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+            <div
+              className={styles.cell}
+              key={`${x}-${y}`}
+              onClick={() => clickHandler(x, y)}
+              {...() => canSetStone(board)}
+            >
               {color !== 0 && (
                 <div
                   className={styles.stone}
                   style={{ background: color === 1 ? `#000` : `#fff` }}
                 />
               )}
-              <div className={styles.preStone} />
+              {<div className={styles.preStone} />}
             </div>
           )),
         )}
