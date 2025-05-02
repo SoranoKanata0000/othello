@@ -80,14 +80,58 @@ export default function Home() {
       setBoard(newBoard);
     }
   };
-  const canSetStone = (board: number[][]) => {
-    const x = 0;
+  const canSetStone = () => {
     const y = 0;
-    for (const i of board) {
+    const x = 0;
+    let i = 0;
+    let j = 0;
+    let countY = -1;
+    let countX = -1;
+    for (const z of board) {
       if (board[y][x] !== 0) {
         continue;
       }
-      console.log(i);
+      const newBoard = structuredClone(board);
+      while (countY < 2) {
+        while (countX < 2) {
+          i += countY;
+          j += countX;
+          console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
+          while (board[y + i][x + j] === 2 / turnColor) {
+            i += countY;
+            j += countX;
+            console.log('i+=countY', 'j+=countX');
+            if (
+              board[y + i] === board[0] ||
+              board[y + i] === board[9] ||
+              board[y + i][x + j] === 0
+            ) {
+              i = 0;
+              j = 0;
+              console.log('while if=>break');
+              break;
+            }
+          }
+          if (
+            board[y + countY] === board[0] ||
+            board[y + countY] === board[9] ||
+            board[y + countY][x + countX] === turnColor ||
+            board[y + countY][x + countX] === 0
+          ) {
+            i = 0;
+            j = 0;
+            console.log('if=>0');
+          }
+
+          i = 0;
+          j = 0;
+          countX++;
+        }
+        countX = -1;
+        countY++;
+      }
+
+      setBoard(newBoard);
     }
   };
 
@@ -100,7 +144,7 @@ export default function Home() {
               className={styles.cell}
               key={`${x}-${y}`}
               onClick={() => clickHandler(x, y)}
-              {...() => canSetStone(board)}
+              {...() => canSetStone()}
             >
               {color !== 0 && (
                 <div
