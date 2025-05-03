@@ -14,7 +14,7 @@ export default function Home() {
     [0, 0, 0, 2, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 3, 0, 0, 0],
     [],
   ]);
   const clickHandler = (x: number, y: number) => {
@@ -81,8 +81,8 @@ export default function Home() {
     }
   };
   const canSetStone = () => {
-    const y = 0;
-    const x = 0;
+    let y = 0;
+    let x = 0;
     let i = 0;
     let j = 0;
     let countY = -1;
@@ -122,7 +122,9 @@ export default function Home() {
             j = 0;
             console.log('if=>0');
           }
-
+          if (board[y + i][x + j] === turnColor) {
+            newBoard[y][x] = 3;
+          }
           i = 0;
           j = 0;
           countX++;
@@ -130,9 +132,10 @@ export default function Home() {
         countX = -1;
         countY++;
       }
-
       setBoard(newBoard);
+      x++;
     }
+    y++;
   };
 
   return (
@@ -146,13 +149,18 @@ export default function Home() {
               onClick={() => clickHandler(x, y)}
               {...() => canSetStone()}
             >
-              {color !== 0 && (
+              {color !== 0 && color !== 3 && (
                 <div
                   className={styles.stone}
                   style={{ background: color === 1 ? `#000` : `#fff` }}
                 />
               )}
-              {<div className={styles.preStone} />}
+              {color !== 1 && color !== 2 && (
+                <div
+                  className={styles.preStone}
+                  style={{ background: color === 3 ? `#000` : `transparent` }}
+                />
+              )}
             </div>
           )),
         )}
