@@ -9,12 +9,12 @@ export default function Home() {
     [],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 3, 0, 0, 0],
+    [0, 0, 0, 1, 2, 3, 0, 0],
+    [0, 0, 3, 2, 1, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [],
   ]);
   const clickHandler = (x: number, y: number) => {
@@ -32,11 +32,11 @@ export default function Home() {
       while (countX < 2) {
         i += countY;
         j += countX;
-        console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
+        //console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
         while (board[y + i][x + j] === 2 / turnColor) {
           i += countY;
           j += countX;
-          console.log('i+=countY', 'j+=countX');
+          //console.log('i+=countY', 'j+=countX');
           if (board[y + i] === board[0] || board[y + i] === board[9] || board[y + i][x + j] === 0) {
             i = 0;
             j = 0;
@@ -52,16 +52,16 @@ export default function Home() {
         ) {
           i = 0;
           j = 0;
-          console.log('if=>0');
+          //console.log('if=>0');
         }
         if (board[y + i][x + j] === turnColor) {
           newBoard[y][x] = turnColor;
           let turnStoneY = countY;
           let turnStoneX = countX;
-          console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
-          console.log('i=', i, 'j=', j);
+          //console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
+          //console.log('i=', i, 'j=', j);
           while (Math.abs(turnStoneY) < Math.abs(i) || Math.abs(turnStoneX) < Math.abs(j)) {
-            console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
+            //console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
             newBoard[y + turnStoneY][x + turnStoneX] = turnColor;
             turnStoneY += countY;
             turnStoneX += countX;
@@ -77,65 +77,69 @@ export default function Home() {
     if (newBoard[y][x] !== 0 && board[y][x] !== newBoard[y][x]) {
       console.log(turnColor, '=>', 2 / turnColor);
       setTurnColor(2 / turnColor);
+      canSetStone();
       setBoard(newBoard);
     }
   };
   const canSetStone = () => {
+    const newBoard = structuredClone(board);
     let y = 0;
     let x = 0;
     let i = 0;
     let j = 0;
     let countY = -1;
     let countX = -1;
-    for (const z of board) {
-      if (board[y][x] !== 0) {
-        continue;
-      }
-      const newBoard = structuredClone(board);
-      while (countY < 2) {
-        while (countX < 2) {
-          i += countY;
-          j += countX;
-          console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
-          while (board[y + i][x + j] === 2 / turnColor) {
+    console.log('canSetStone=>', y, x);
+    while (y < 9) {
+      console.log('y=>', y, x);
+      for (x < 8; x++; ) {
+        console.log('x=>', x);
+        if (board[y][x] !== 0 && board[y][x] !== 3) {
+          continue;
+        }
+        if (board[y][x] === 3) {
+          board[y][x] = 0;
+        }
+        while (countY < 2) {
+          while (countX < 2) {
             i += countY;
             j += countX;
-            console.log('i+=countY', 'j+=countX');
+            while (board[y + i][x + j] === 2 / turnColor) {
+              i += countY;
+              j += countX;
+              if (
+                board[y + i] === board[0] ||
+                board[y + i] === board[9] ||
+                board[y + i][x + j] === 0
+              ) {
+                i = 0;
+                j = 0;
+                break;
+              }
+            }
             if (
-              board[y + i] === board[0] ||
-              board[y + i] === board[9] ||
-              board[y + i][x + j] === 0
+              board[y + countY] === board[0] ||
+              board[y + countY] === board[9] ||
+              board[y + countY][x + countX] === turnColor ||
+              board[y + countY][x + countX] === 0
             ) {
               i = 0;
               j = 0;
-              console.log('while if=>break');
-              break;
             }
-          }
-          if (
-            board[y + countY] === board[0] ||
-            board[y + countY] === board[9] ||
-            board[y + countY][x + countX] === turnColor ||
-            board[y + countY][x + countX] === 0
-          ) {
+            if (board[y + i][x + j] === turnColor) {
+              newBoard[y][x] = 3;
+            }
             i = 0;
             j = 0;
-            console.log('if=>0');
+            countX++;
           }
-          if (board[y + i][x + j] === turnColor) {
-            newBoard[y][x] = 3;
-          }
-          i = 0;
-          j = 0;
-          countX++;
+          countX = -1;
+          countY++;
         }
-        countX = -1;
-        countY++;
       }
-      setBoard(newBoard);
-      x++;
+      y++;
+      x = 0;
     }
-    y++;
   };
 
   return (
@@ -143,12 +147,7 @@ export default function Home() {
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
-            <div
-              className={styles.cell}
-              key={`${x}-${y}`}
-              onClick={() => clickHandler(x, y)}
-              {...() => canSetStone()}
-            >
+            <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
               {color !== 0 && color !== 3 && (
                 <div
                   className={styles.stone}
@@ -158,7 +157,7 @@ export default function Home() {
               {color !== 1 && color !== 2 && (
                 <div
                   className={styles.preStone}
-                  style={{ background: color === 3 ? `#000` : `transparent` }}
+                  style={{ background: color === 3 ? `#777` : `transparent` }}
                 />
               )}
             </div>
