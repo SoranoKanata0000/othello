@@ -82,6 +82,7 @@ export default function Home() {
     }
   };
   const canSetStone = (newBoard: number[][]) => {
+    console.log('turn=', turnColor);
     let y = 1;
     while (y < 9) {
       for (let x = 0; x < 8; x++) {
@@ -100,7 +101,7 @@ export default function Home() {
           while (countX < 2) {
             i += countY;
             j += countX;
-            while (newBoard[y + i][x + j] === 2 / turnColor) {
+            while (newBoard[y + i][x + j] === turnColor) {
               i += countY;
               j += countX;
               if (
@@ -116,13 +117,13 @@ export default function Home() {
             if (
               newBoard[y + countY] === newBoard[0] ||
               newBoard[y + countY] === newBoard[9] ||
-              newBoard[y + countY][x + countX] === turnColor ||
+              newBoard[y + countY][x + countX] === 2 / turnColor ||
               newBoard[y + countY][x + countX] === 0
             ) {
               i = 0;
               j = 0;
             }
-            if (newBoard[y + i][x + j] === turnColor) {
+            if (newBoard[y + i][x + j] === 2 / turnColor) {
               newBoard[y][x] = 3;
             }
             i = 0;
