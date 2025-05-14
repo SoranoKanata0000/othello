@@ -9,11 +9,11 @@ export default function Home() {
     [],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 3, 0, 0, 0],
-    [0, 0, 0, 1, 2, 3, 0, 0],
-    [0, 0, 3, 2, 1, 0, 0, 0],
-    [0, 0, 0, 3, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [],
   ]);
@@ -83,6 +83,7 @@ export default function Home() {
   };
   const canSetStone = (newBoard: number[][]) => {
     console.log('turn=', turnColor);
+    let passCount = 0;
     let y = 1;
     while (y < 9) {
       for (let x = 0; x < 8; x++) {
@@ -125,6 +126,7 @@ export default function Home() {
             }
             if (newBoard[y + i][x + j] === 2 / turnColor) {
               newBoard[y][x] = 3;
+              passCount++;
             }
             i = 0;
             j = 0;
@@ -135,6 +137,10 @@ export default function Home() {
         }
       }
       y++;
+    }
+    if (passCount === 0) {
+      console.log(turnColor, '=>', 2 / turnColor);
+      setTurnColor(turnColor);
     }
   };
 
