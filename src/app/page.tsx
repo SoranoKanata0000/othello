@@ -18,7 +18,7 @@ export default function Home() {
     [],
   ]);
   const clickHandler = (x: number, y: number) => {
-    console.log(y, x);
+    console.log(y, x, turnColor);
     const newBoard = structuredClone(board);
     let i = 0;
     let j = 0;
@@ -58,7 +58,7 @@ export default function Home() {
           newBoard[y][x] = turnColor;
           let turnStoneY = countY;
           let turnStoneX = countX;
-          //console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
+          console.log('newBoard=>', newBoard[y][x]);
           //console.log('i=', i, 'j=', j);
           while (Math.abs(turnStoneY) < Math.abs(i) || Math.abs(turnStoneX) < Math.abs(j)) {
             //console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
@@ -74,43 +74,39 @@ export default function Home() {
       countX = -1;
       countY++;
     }
-    if (newBoard[y][x] !== 0 && board[y][x] !== newBoard[y][x]) {
+    if (newBoard[y][x] !== 0 && board[y][x] !== newBoard[y][x] && newBoard[y][x] !== 3) {
       console.log(turnColor, '=>', 2 / turnColor);
       setTurnColor(2 / turnColor);
-      canSetStone();
+      canSetStone(newBoard);
       setBoard(newBoard);
     }
   };
-  const canSetStone = () => {
-    const newBoard = structuredClone(board);
-    let y = 0;
-    let x = 0;
-    let i = 0;
-    let j = 0;
-    let countY = -1;
-    let countX = -1;
-    console.log('canSetStone=>', y, x);
+  const canSetStone = (newBoard: number[][]) => {
+    let y = 1;
     while (y < 9) {
-      console.log('y=>', y, x);
-      for (x < 8; x++; ) {
-        console.log('x=>', x);
-        if (board[y][x] !== 0 && board[y][x] !== 3) {
+      for (let x = 0; x < 8; x++) {
+        let i = 0;
+        let j = 0;
+        let countY = -1;
+        let countX = -1;
+        if (newBoard[y][x] !== 0 && newBoard[y][x] !== 3) {
+          console.log('board', y, x, '=>continue');
           continue;
         }
-        if (board[y][x] === 3) {
-          board[y][x] = 0;
+        if (newBoard[y][x] !== 1 && newBoard[y][x] !== 2) {
+          newBoard[y][x] = 0;
         }
         while (countY < 2) {
           while (countX < 2) {
             i += countY;
             j += countX;
-            while (board[y + i][x + j] === 2 / turnColor) {
+            while (newBoard[y + i][x + j] === 2 / turnColor) {
               i += countY;
               j += countX;
               if (
-                board[y + i] === board[0] ||
-                board[y + i] === board[9] ||
-                board[y + i][x + j] === 0
+                newBoard[y + i] === newBoard[0] ||
+                newBoard[y + i] === newBoard[9] ||
+                newBoard[y + i][x + j] === 0
               ) {
                 i = 0;
                 j = 0;
@@ -118,15 +114,15 @@ export default function Home() {
               }
             }
             if (
-              board[y + countY] === board[0] ||
-              board[y + countY] === board[9] ||
-              board[y + countY][x + countX] === turnColor ||
-              board[y + countY][x + countX] === 0
+              newBoard[y + countY] === newBoard[0] ||
+              newBoard[y + countY] === newBoard[9] ||
+              newBoard[y + countY][x + countX] === turnColor ||
+              newBoard[y + countY][x + countX] === 0
             ) {
               i = 0;
               j = 0;
             }
-            if (board[y + i][x + j] === turnColor) {
+            if (newBoard[y + i][x + j] === turnColor) {
               newBoard[y][x] = 3;
             }
             i = 0;
@@ -138,7 +134,6 @@ export default function Home() {
         }
       }
       y++;
-      x = 0;
     }
   };
 
