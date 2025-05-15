@@ -32,11 +32,9 @@ export default function Home() {
       while (countX < 2) {
         i += countY;
         j += countX;
-        //console.log('i=', i, 'j=', j, 'countY=', countY, 'countX=', countX);
         while (board[y + i][x + j] === 2 / turnColor) {
           i += countY;
           j += countX;
-          //console.log('i+=countY', 'j+=countX');
           if (board[y + i] === board[0] || board[y + i] === board[9] || board[y + i][x + j] === 0) {
             i = 0;
             j = 0;
@@ -52,16 +50,13 @@ export default function Home() {
         ) {
           i = 0;
           j = 0;
-          //console.log('if=>0');
         }
         if (board[y + i][x + j] === turnColor) {
           newBoard[y][x] = turnColor;
           let turnStoneY = countY;
           let turnStoneX = countX;
           console.log('newBoard=>', newBoard[y][x]);
-          //console.log('i=', i, 'j=', j);
           while (Math.abs(turnStoneY) < Math.abs(i) || Math.abs(turnStoneX) < Math.abs(j)) {
-            //console.log('turnStoneY=', turnStoneY, 'turnStoneX=', turnStoneX);
             newBoard[y + turnStoneY][x + turnStoneX] = turnColor;
             turnStoneY += countY;
             turnStoneX += countX;
@@ -149,9 +144,22 @@ export default function Home() {
       preStone(newBoard, preTurnColor);
     }
   };
+  const scoreCounter = (turnColors: number) => {
+    let score = 0;
+    for (let y = 1; y < 9; y++) {
+      for (let x = 0; x < 8; x++) {
+        if (board[y][x] === turnColors) {
+          score++;
+        }
+      }
+    }
+    console.log('score', turnColors, '=', score);
+    return score;
+  };
 
   return (
     <div className={styles.container}>
+      <div className={styles.scoreCounter} onClick={() => scoreCounter(1)} />
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
@@ -172,6 +180,7 @@ export default function Home() {
           )),
         )}
       </div>
+      <div className={styles.scoreCounter} onClick={() => scoreCounter(2)} />
     </div>
   );
 }
