@@ -9,10 +9,10 @@ export default function Home() {
     [],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 3, 0, 0, 0],
-    [0, 0, 0, 1, 2, 3, 0, 0],
-    [0, 0, 3, 2, 1, 0, 0, 0],
-    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [],
@@ -87,7 +87,7 @@ export default function Home() {
           let j = 0;
           let countY = -1;
           let countX = -1;
-          if (newBoard[y][x] !== 0 && newBoard[y][x] !== 3) {
+          if (newBoard[y][x] !== 0) {
             console.log('board', y, x, '=>continue');
             continue;
           }
@@ -121,6 +121,7 @@ export default function Home() {
                 j = 0;
               }
               if (newBoard[y + i][x + j] === 2 / turnColor) {
+                const putableBoard = newBoard.map((brd) => true);
                 newBoard[y][x] = 3;
                 passCount++;
               }
@@ -144,7 +145,20 @@ export default function Home() {
       preStone(newBoard, preTurnColor);
     }
   };
-  const scoreCounter = (turnColors: number) => {
+  const forceEnd = () => {
+    let count = 0;
+    for (let y = 1; y < 9; y++) {
+      for (let x = 0; x < 8; x++) {
+        if (board[y][x] === 1 || board[y][x] === 2) {
+          count++;
+        }
+      }
+    }
+    if (count >= 64) {
+      alert('ゲーム終了');
+    }
+  };
+  const pointCounter = (turnColors: number) => {
     let score = 0;
     for (let y = 1; y < 9; y++) {
       for (let x = 0; x < 8; x++) {
@@ -156,12 +170,13 @@ export default function Home() {
     console.log('score', turnColors, '=', score);
     return score;
   };
-
+  forceEnd();
   return (
     <div className={styles.container}>
-      <div className={styles.scoreCounter} onClick={() => scoreCounter(1)}>
+      <div className={styles.scoreCounter} onClick={() => pointCounter(1)}>
         <p>
-          <span>Black</span>
+          Black=
+          <span>1</span>
         </p>
       </div>
       <div className={styles.board}>
@@ -184,9 +199,10 @@ export default function Home() {
           )),
         )}
       </div>
-      <div className={styles.scoreCounter} onClick={() => scoreCounter(2)}>
+      <div className={styles.scoreCounter} onClick={() => pointCounter(2)}>
         <p>
-          <span>white</span>
+          white=
+          <span>2</span>
         </p>
       </div>
     </div>
