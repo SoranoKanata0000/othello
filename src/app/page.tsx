@@ -9,11 +9,11 @@ export default function Home() {
     [],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 2, 3, 0, 0, 0],
-    [0, 0, 0, 1, 0, 3, 0, 0],
+    [0, 0, 0, 0, 3, 0, 0, 0],
+    [0, 0, 0, 1, 2, 3, 0, 0],
     [0, 0, 3, 2, 1, 0, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [],
   ]);
@@ -159,7 +159,11 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.scoreCounter} onClick={() => scoreCounter(1)} />
+      <div className={styles.scoreCounter} onClick={() => scoreCounter(1)}>
+        <p>
+          <span>Black</span>
+        </p>
+      </div>
       <div className={styles.board}>
         {board.map((row, y) =>
           row.map((color, x) => (
@@ -180,7 +184,11 @@ export default function Home() {
           )),
         )}
       </div>
-      <div className={styles.scoreCounter} onClick={() => scoreCounter(2)} />
+      <div className={styles.scoreCounter} onClick={() => scoreCounter(2)}>
+        <p>
+          <span>white</span>
+        </p>
+      </div>
     </div>
   );
 }
