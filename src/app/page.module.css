@@ -39,3 +39,9 @@
   border-radius: 50%;
   opacity: 0.3;
 }
+
+.scoreCounter {
+  width: 160px;
+  height: 100px;
+  background-color: aqua;
+}
